@@ -34,7 +34,7 @@ resources = {
 # TODO: 2. Resources_check
 
 current_resources = resources
-
+profit = 0
 
 # TODO: 3. Currency
 
@@ -54,9 +54,9 @@ def money(q, n, d, p, item):
 
 def check_resources(item):
     global current_resources
-    for i in MENU[item]["ingredients"]:
-        if current_resources[i] < MENU[item]["ingredients"][i]:
-            print(f"Sorry there is not enough {i}.")
+    for ingredient in MENU[item]["ingredients"]:
+        if current_resources[ingredient] < MENU[item]["ingredients"][ingredient]:
+            print(f"Sorry there is not enough {ingredient}.")
             return False
         else:
             return True
@@ -65,23 +65,17 @@ def check_resources(item):
 while True:
     order = input("What would you like? (espresso/latte/cappuccino): ").lower()
     if order == "report":
-        print(current_resources)
+        print(f"{current_resources}\nCash: {profit}")
     else:
-        if check_resources(order) :
+        if check_resources(order):
             if money(int(input("Please insert coins.\nhow many quarters?:")),
-                                            int(input("how many Dimes?:")),
-                                            int(input("how many Nickles?:")),
-                                            int(input("how many Pennies?:")), order):
+                     int(input("how many Dimes?:")),
+                     int(input("how many Nickles?:")),
+                     int(input("how many Pennies?:")), order):
                 print(f"Here is your {order} ☕️. Enjoy!")
+                profit += MENU[order]["cost"]
                 for i in MENU[order]["ingredients"]:
                     current_resources[i] = current_resources[i]-MENU[order]["ingredients"][i]
             else:
                 break
-
-
-
-
-
-
-
-
+                
